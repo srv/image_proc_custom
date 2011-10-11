@@ -1,0 +1,36 @@
+<launch>
+
+  <arg name="stereo" default="stereo_camera" />
+  <arg name="image" default="image_raw" />
+  <arg name="image_scaled" default="$(arg image)" />
+  
+  <node pkg="stereo_image_proc" type="stereo_image_proc" name="image_proc" output="screen"
+        ns="$(arg stereo)/scaled" />
+  
+  <node pkg="nodelet" type="nodelet" name="scale_nodelet_left" output="screen"
+        args="standalone image_proc_custom/crop_decimate" >
+     <remap from="camera" to="$(arg stereo)/left" /> 
+     <remap from="camera_out" to="$(arg stereo)/scaled/left"/>
+     <remap from="$(arg stereo)/left/image_raw" to="$(arg stereo)/left/$(arg image)"/>
+     <remap from="$(arg stereo)/scaled/left/image_raw" to="$(arg stereo)/scaled/left/$(arg image)"/>
+  </node>
+  
+  <node pkg="nodelet" type="nodelet" name="scale_nodelet_right" output="screen"
+        args="standalone image_proc_custom/crop_decimate" >
+     <remap from="camera" to="$(arg stereo)/right" />
+     <remap from="camera_out" to="$(arg stereo)/scaled/right"/>
+     <remap from="$(arg stereo)/right/image_raw" to="$(arg stereo)/right/$(arg image)"/>
+     <remap from="$(arg stereo)/scaled/right/image_raw" to="$(arg stereo)/scaled/right/$(arg image)"/>
+  </node>
+  
+  <node pkg="dynamic_reconfigure" type="reconfigure_gui" name="reconfigure_gui" output="screen" />
+  
+  <node pkg="image_view" type="image_view" name="image_view_left" output="screen" >
+    <remap from="image" to="$(arg stereo)/scaled/left/$(arg image_scaled)" />
+  </node>
+  
+  <node pkg="image_view" type="image_view" name="image_view_right" output="screen" >
+    <remap from="image" to="$(arg stereo)/scaled/right/$(arg image_scaled)" />
+  </node>
+
+</launch>

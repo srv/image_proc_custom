@@ -5,7 +5,7 @@
 #include <dynamic_reconfigure/server.h>
 #include <image_proc/CropDecimateConfig.h>
 
-namespace image_proc {
+namespace image_proc_custom {
 
 class CropDecimateNodelet : public nodelet::Nodelet
 {
@@ -177,4 +177,4 @@ void CropDecimateNodelet::subsample(const uint8_t* const in, const int& in_step,
 
 // Register nodelet
 #include <pluginlib/class_list_macros.h>
-PLUGINLIB_DECLARE_CLASS(image_proc_custom, crop_decimate, image_proc::CropDecimateNodelet, nodelet::Nodelet)
+PLUGINLIB_DECLARE_CLASS(image_proc_custom, crop_decimate, image_proc_custom::CropDecimateNodelet, nodelet::Nodelet)

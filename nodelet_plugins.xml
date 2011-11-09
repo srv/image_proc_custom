@@ -1,12 +1,20 @@
-<library path="lib/libimage_proc">
-
+<library path="lib/libimage_proc_custom">
   <class name="image_proc_custom/crop_decimate"
-    type="image_proc::CropDecimateNodelet"
+    type="image_proc_custom::CropDecimateNodelet"
     base_class_type="nodelet::Nodelet">
     <description>
       Nodelet to apply decimation (software binning) and ROI to a raw camera
       image post-capture.
     </description>
   </class>
+</library>
 
+<library path="lib/libimage_proc_custom">
+  <class name="image_proc_custom/scale"
+         type="image_proc_custom::ScaleNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description> 
+      Image scaling nodelet.
+    </description>
+  </class>
 </library>

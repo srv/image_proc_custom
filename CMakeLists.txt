@@ -14,8 +14,9 @@ include(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
 gencfg()
 
 # Nodelet library
-rosbuild_add_library(image_proc 
+rosbuild_add_library(image_proc_custom 
                                 src/nodelets/crop_decimate.cpp
+                                src/nodelets/scale.cpp
                     )
 
 # Standalone node

@@ -1,28 +1,24 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(image_proc_custom)
 
-set(ROS_BUILD_TYPE RelWithDebInfo)
+find_package(catkin REQUIRED COMPONENTS 
+	camera_info_manager 
+	driver_base 
+	dynamic_reconfigure 
+	image_transport 
+	nodelet 
+	roscpp
+	rospy
+	tf)
 
-rosbuild_init()
+find_package(Boost REQUIRED COMPONENTS program_options system filesystem)
+include_directories(${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-rosbuild_add_boost_directories()
-
-# Dynamic reconfigure support
-rosbuild_find_ros_package(dynamic_reconfigure)
-include(${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake)
-gencfg()
+# Dynamic reconfigure support.
+generate_dynamic_reconfigure_options(cfg/CropDecimate.cfg)
 
 # Nodelet library
-rosbuild_add_library(image_proc 
-                                src/nodelets/crop_decimate.cpp
-                    )
+add_library(${PROJECT_NAME} src/nodelets/crop_decimate.cpp)
+add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 
-# Standalone node
-#rosbuild_add_executable(image_proc_exe src/nodes/image_proc.cpp)
-#target_link_libraries(image_proc_exe image_proc)
-#SET_TARGET_PROPERTIES(image_proc_exe PROPERTIES OUTPUT_NAME image_proc)
-
-# Tests
-#rosbuild_add_executable(image_proc_rostest test/rostest.cpp)
-#rosbuild_add_gtest_build_flags(image_proc_rostest)
+catkin_package()

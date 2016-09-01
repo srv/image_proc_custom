@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(image_proc_custom)
 
-find_package(catkin REQUIRED COMPONENTS 
-	camera_info_manager 
-	driver_base 
-	dynamic_reconfigure 
-	image_transport 
-	nodelet 
+find_package(catkin REQUIRED COMPONENTS
+	camera_info_manager
+	dynamic_reconfigure
+	image_transport
+	nodelet
 	roscpp
 	rospy
 	tf)
